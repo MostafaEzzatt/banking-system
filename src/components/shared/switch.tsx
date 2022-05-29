@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 // types
-import switchProps from "../type/switchProps";
+import switchProps from "../../type/switchProps";
 
 const Switch = ({
     switchForm,

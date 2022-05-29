@@ -17,6 +17,9 @@ import { toast } from "react-toastify";
 import createUserWithEmail from "../../lib/firebase/createUserWithEmail";
 import messages from "../../messages/firebase";
 
+// redux
+import { useAppSelector } from "../../hooks/redux";
+
 const Signup = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -29,6 +32,7 @@ const Signup = () => {
         rePassword: "",
         tele: "",
     });
+    const auth = useAppSelector((state) => state.auth);
 
     const resetErrors = () => {
         setErrors({
@@ -41,6 +45,12 @@ const Signup = () => {
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+
+        if (auth.isLoggedIn)
+            return toast.error("user already authenticated", {
+                toastId: "alreadyAuthenticated",
+            });
+
         setIsDisabled(true);
 
         resetErrors();

@@ -9,13 +9,16 @@ import type { NextPage } from "next";
 // components
 import Signup from "../components/forms/signup";
 import Signin from "../components/forms/signin";
-import Switch from "../components/switch";
+import Switch from "../components/shared/switch";
+
+// Route Protection
+import ifUnAuthintecated from "../components/routeProtection/ifUnAuthentecation";
 
 const Home: NextPage = () => {
     const [switchForm, setSwitchForm] = useState(true);
 
     return (
-        <main className="w-full h-screen bg-slate-800 flex flex-col justify-center items-center relative">
+        <main className="w-full h-screen  flex flex-col justify-center items-center relative">
             <div className="absolute top-8 left-8">
                 <Switch
                     switchForm={switchForm}
@@ -41,4 +44,4 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+export default ifUnAuthintecated(Home);

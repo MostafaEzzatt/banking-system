@@ -13,10 +13,11 @@ import { handleSignInInputError } from "../../utility/handleInputError";
 import { toast } from "react-toastify";
 
 // firebase
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../lib/firebase/config";
 import loginWithEmail from "../../lib/firebase/loginWithEmail";
 import messages from "../../messages/firebase";
+
+// redux
+import { useAppSelector } from "../../hooks/redux";
 
 const Signin = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -27,8 +28,14 @@ const Signin = () => {
         password: "",
     });
 
+    const auth = useAppSelector((state) => state.auth);
+
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+        if (auth.isLoggedIn)
+            return toast.error("user already authenticated", {
+                toastId: "alreadyAuthenticated",
+            });
 
         setIsDisabled(true);
 
@@ -113,7 +120,7 @@ const Signin = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-orange-600 text-white py-3 font-medium hover:bg-orange-500 focus:bg-orange-300"
+                        className="w-full bg-orange-600 text-white py-3 font-medium hover:bg-orange-500 focus:bg-orange-300 disabled:bg-orange-800 disabled:cursor-not-allowed"
                         disabled={isDisabled}
                     >
                         Sign In

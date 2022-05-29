@@ -22,7 +22,7 @@ const Input = forwardRef(
                         focus:ring-0  
                         outline-none focus-within:outline-none focus:outline-none
                         transition-colors
-                        // placeholder-transparent
+                        placeholder-transparent
                         text-slate-400
                         peer
                 "

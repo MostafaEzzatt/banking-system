@@ -27,7 +27,7 @@ const createUserWithEmail = async (
 
         if (user) {
             const userDocRef = doc(fireStore, "users", user.user.uid);
-            await setDoc(userDocRef, { mail: username, phone });
+            await setDoc(userDocRef, { mail: username, phone, role: "user" });
 
             return { icon: iconSuccess, error: "auth/user-registered" };
         }
