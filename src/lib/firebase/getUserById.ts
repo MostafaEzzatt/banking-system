@@ -1,13 +1,16 @@
 import { doc, getDoc } from "firebase/firestore";
+import { user } from "../../type/reduxAuthState";
 import { fireStore } from "./config";
 
 const getUserById = async (id: string) => {
-    const emptyUser = {
+    const emptyUser: user = {
         uid: "",
         username: "",
         phone: "",
         role: null,
         active: false,
+        created_at: new Date(),
+        modified_at: new Date(),
     };
 
     if (!id || id === "")
@@ -28,6 +31,8 @@ const getUserById = async (id: string) => {
             const phone: string = user.data()!.phone;
             const role: string = user.data()!.role;
             const active: boolean = user.data()!.active;
+            const created_at: Date = user.data()!.created_at;
+            const modified_at: Date = user.data()!.modified_at;
             return {
                 complete: true,
                 user: {
@@ -36,6 +41,8 @@ const getUserById = async (id: string) => {
                     phone,
                     role,
                     active,
+                    created_at,
+                    modified_at,
                 },
 
                 error: false,

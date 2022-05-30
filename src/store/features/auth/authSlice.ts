@@ -7,6 +7,9 @@ const initialState: authState = {
         username: "",
         phone: "",
         role: null,
+        active: false,
+        created_at: new Date(),
+        modified_at: new Date(),
     },
     isLoggedIn: null,
 };
