@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { auth, fireStore } from "./config";
 
 // types
@@ -32,6 +32,8 @@ const createUserWithEmail = async (
                 phone,
                 role: "user",
                 active: false,
+                created_at: serverTimestamp(),
+                modified_at: serverTimestamp(),
             });
 
             return { icon: iconSuccess, error: "auth/user-registered" };
