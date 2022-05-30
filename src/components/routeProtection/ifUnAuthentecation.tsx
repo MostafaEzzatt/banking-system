@@ -20,7 +20,7 @@ const ifUnAuthentecated = <T extends object>(
         useEffect(() => {
             if (auth.isLoggedIn) {
                 router.replace(
-                    auth.user.role == "user" ? "/dashboard" : "admin"
+                    auth.user.role == "user" ? "/user/dashboard" : "/user/admin"
                 );
             }
         }, [auth.isLoggedIn, auth.user.role, router]);
