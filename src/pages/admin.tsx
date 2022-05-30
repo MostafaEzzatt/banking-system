@@ -18,6 +18,7 @@ const Dashboard = () => {
         signOut(auth);
         dispatch(logout);
     };
+
     return (
         <>
             <h2 className="text-white">Admin Area Only</h2>

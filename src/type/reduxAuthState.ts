@@ -4,6 +4,7 @@ export default interface authState {
         username: string;
         phone: string;
         role: string | null;
+        active: boolean;
     };
     isLoggedIn: boolean | null;
 }
