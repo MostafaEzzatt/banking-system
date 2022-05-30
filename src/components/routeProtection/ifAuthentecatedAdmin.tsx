@@ -10,7 +10,9 @@ import { useAppSelector } from "../../hooks/redux";
 // componenets
 import LoadingFullScreen from "../shared/loadingFullScreen";
 
-const ifAuthentecatedAdmin = <T,>(Component: NextComponentType<T>) => {
+const ifAuthentecatedAdmin = <T extends object>(
+    Component: NextComponentType<T>
+) => {
     return function Authentecated(props: T) {
         const auth = useAppSelector((state) => state.auth);
         const router = useRouter();

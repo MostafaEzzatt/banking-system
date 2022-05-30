@@ -7,6 +7,7 @@ const getUserById = async (id: string) => {
         username: "",
         phone: "",
         role: null,
+        active: false,
     };
 
     if (!id || id === "")
@@ -26,6 +27,7 @@ const getUserById = async (id: string) => {
             const username: string = user.data()!.mail;
             const phone: string = user.data()!.phone;
             const role: string = user.data()!.role;
+            const active: boolean = user.data()!.active;
             return {
                 complete: true,
                 user: {
@@ -33,6 +35,7 @@ const getUserById = async (id: string) => {
                     username,
                     phone,
                     role,
+                    active,
                 },
 
                 error: false,

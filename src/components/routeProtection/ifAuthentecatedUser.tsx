@@ -5,25 +5,51 @@ import { useRouter } from "next/router";
 import { NextComponentType } from "next";
 
 // redux
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 
 // componenets
 import LoadingFullScreen from "../shared/loadingFullScreen";
+import { signOut } from "firebase/auth";
+import { auth } from "../../lib/firebase/config";
+import { logout } from "../../store/features/auth/authSlice";
+import { toast } from "react-toastify";
 
-const ifAuthentecatedUser = <T,>(Component: NextComponentType<T>) => {
+const ifAuthentecatedUser = <T extends object>(
+    Component: NextComponentType<T>
+) => {
     return function Authentecated(props: T) {
-        const auth = useAppSelector((state) => state.auth);
+        const authSelector = useAppSelector((state) => state.auth);
+        const dispatch = useAppDispatch();
         const router = useRouter();
 
         useEffect(() => {
-            if (!auth.isLoggedIn) {
+            if (!authSelector.isLoggedIn) {
                 router.replace("/");
-            } else if (auth.isLoggedIn && auth.user.role !== "user") {
+            } else if (
+                authSelector.isLoggedIn &&
+                authSelector.user.role !== "user"
+            ) {
                 router.replace("/");
+            } else if (
+                authSelector.isLoggedIn &&
+                authSelector.user.role == "user" &&
+                authSelector.user.active == false
+            ) {
+                signOut(auth);
+                dispatch(logout());
+                toast.info("Please Wait Until Your Account Be Verified", {
+                    toastId: "verifyMessage",
+                });
             }
-        }, [auth.isLoggedIn, auth.user.role, router]);
+        }, [
+            authSelector.isLoggedIn,
+            authSelector.user.active,
+            authSelector.user.role,
+            dispatch,
+            router,
+        ]);
 
-        if (auth.isLoggedIn == null) return <LoadingFullScreen />;
+        if (authSelector.isLoggedIn == null) return <LoadingFullScreen />;
         return <Component {...props} />;
     };
 };
