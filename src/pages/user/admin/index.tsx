@@ -1,15 +1,15 @@
 import React from "react";
 
 // components
-import ifAuthintecatedAdmin from "../components/routeProtection/ifAuthentecatedAdmin";
+import ifAuthintecatedAdmin from "../../../components/routeProtection/ifAuthentecatedAdmin";
 
 // firebase
 import { signOut } from "firebase/auth";
-import { auth } from "../lib/firebase/config";
+import { auth } from "../../../lib/firebase/config";
 
 // redux
-import { useAppDispatch } from "../hooks/redux";
-import { logout } from "../store/features/auth/authSlice";
+import { useAppDispatch } from "../../../hooks/redux";
+import { logout } from "../../../store/features/auth/authSlice";
 
 const Dashboard = () => {
     const dispatch = useAppDispatch();
