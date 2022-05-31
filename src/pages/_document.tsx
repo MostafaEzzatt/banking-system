@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -16,6 +17,7 @@ export default function Document() {
                 />
             </Head>
             <body className="bg-slate-800">
+                <div id="bank-dialogs"></div>
                 <Main />
                 <NextScript />
             </body>
