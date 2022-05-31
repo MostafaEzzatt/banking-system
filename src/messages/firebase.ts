@@ -30,6 +30,7 @@ const messages: { [key: string]: string } = {
     "data-loss": "Data loss",
     unauthenticated: "Unauthenticated",
     "all-fields-required": "please provide all the required fields",
+    "account-created": "The Account Created",
 };
 
 export default messages;

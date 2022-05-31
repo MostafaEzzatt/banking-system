@@ -20,7 +20,7 @@ const OnAuthStateChange = () => {
         const unSubAuthStateChange = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userFromFirestore = await getUserById(user.uid);
-
+                console.log(userFromFirestore);
                 if (userFromFirestore && userFromFirestore.complete) {
                     dispatch(
                         login({

@@ -9,8 +9,8 @@ const getUserById = async (id: string) => {
         phone: "",
         role: null,
         active: false,
-        created_at: new Date(),
-        modified_at: new Date(),
+        created_at: new Date().toString(),
+        modified_at: new Date().toString(),
     };
 
     if (!id || id === "")
@@ -31,8 +31,13 @@ const getUserById = async (id: string) => {
             const phone: string = user.data()!.phone;
             const role: string = user.data()!.role;
             const active: boolean = user.data()!.active;
-            const created_at: Date = user.data()!.created_at;
-            const modified_at: Date = user.data()!.modified_at;
+            const created_at: string = new Date(
+                user.data()!.created_at.toDate()
+            ).toString();
+            const modified_at: string = new Date(
+                user.data()!.modified_at.toDate()
+            ).toString();
+
             return {
                 complete: true,
                 user: {

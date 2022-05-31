@@ -3,7 +3,7 @@ const checkPassword = (input: string | undefined) => {
 
     const regex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-    return regex.test(input);
+    return regex.test(input.trim());
 };
 
 export default checkPassword;
