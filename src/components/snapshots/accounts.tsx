@@ -8,7 +8,7 @@ import {
     where,
 } from "firebase/firestore";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { fireStore } from "../../lib/firebase/config";
 import {
     add,
@@ -21,7 +21,6 @@ import authState from "../../type/reduxAuthState";
 const Accounts = (props: { user: authState }) => {
     const { user } = props;
     const dispatch = useAppDispatch();
-    const curAccounts = useAppSelector((state) => state.accounts);
 
     useEffect(() => {
         let unSub: Unsubscribe;
@@ -34,7 +33,7 @@ const Accounts = (props: { user: authState }) => {
                         ? query(
                               accountsColRef,
                               where("owner", "==", userDocRef),
-                              orderBy("created_at", "desc")
+                              orderBy("created_at", "asc")
                           )
                         : query(accountsColRef);
 
@@ -46,7 +45,7 @@ const Accounts = (props: { user: authState }) => {
                             const balance: number = doc.doc.data()?.balance;
                             const created_at: string = doc.doc
                                 .data()
-                                .created_at?.toDate()
+                                .created_at.toDate()
                                 .toString();
                             const modified_at: string = doc.doc
                                 .data()

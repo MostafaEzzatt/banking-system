@@ -1,7 +1,7 @@
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc } from "firebase/firestore";
+import ToastType from "../../type/toast";
 import checkBankAccountExist from "./checkBankAccountExist";
 import { fireStore } from "./config";
-import ToastType from "../../type/toast";
 
 const createUserBankAccount = async (
     name: string,
@@ -26,8 +26,8 @@ const createUserBankAccount = async (
         await addDoc(accountColRef, {
             name,
             balance,
-            created_at: serverTimestamp(),
-            modified_at: serverTimestamp(),
+            created_at: new Date(),
+            modified_at: new Date(),
             owner: userRef,
         });
 

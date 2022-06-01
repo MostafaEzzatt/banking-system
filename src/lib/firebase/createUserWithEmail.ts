@@ -1,9 +1,10 @@
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, fireStore } from "./config";
 
 // types
 import ToastType from "../../type/toast";
+import addUserToFirestore from "./addUserToFirestore";
 
 const createUserWithEmail = async (
     username: string,
@@ -26,15 +27,7 @@ const createUserWithEmail = async (
         );
 
         if (user) {
-            const userDocRef = doc(fireStore, "users", user.user.uid);
-            await setDoc(userDocRef, {
-                mail: username,
-                phone,
-                role: "user",
-                active: false,
-                created_at: serverTimestamp(),
-                modified_at: serverTimestamp(),
-            });
+            await addUserToFirestore(username, phone, user.user.uid);
 
             return { icon: iconSuccess, error: "auth/user-registered" };
         }

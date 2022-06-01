@@ -28,8 +28,6 @@ const OnAuthStateChange = () => {
                     toast.error(messages["not-found"], {
                         toastId: "getUserFromFirebase",
                     });
-                } else {
-                    signOut(auth);
                 }
             } else {
                 dispatch(logout());

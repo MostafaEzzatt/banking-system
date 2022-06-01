@@ -18,7 +18,7 @@ export const accountsSlice = createSlice({
 
             // if Not exist add to the array
             if (!isExist) {
-                state.accounts = [...state.accounts, action.payload];
+                state.accounts = [action.payload, ...state.accounts];
             }
             // else just ignore it
         },

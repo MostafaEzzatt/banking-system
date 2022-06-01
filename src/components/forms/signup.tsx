@@ -126,7 +126,6 @@ const Signup = () => {
 
         const create = await createUserWithEmail(username, password, tele);
         const q = messages[create.error] || messages["unknown"];
-
         toast(q, {
             toastId: "signup",
             type: create.icon || "default",
