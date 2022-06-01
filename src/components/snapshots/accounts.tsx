@@ -23,8 +23,6 @@ const Accounts = (props: { user: authState }) => {
     const dispatch = useAppDispatch();
     const curAccounts = useAppSelector((state) => state.accounts);
 
-    console.log(curAccounts);
-
     useEffect(() => {
         let unSub: Unsubscribe;
         if (user.isLoggedIn) {
@@ -43,7 +41,6 @@ const Accounts = (props: { user: authState }) => {
                 return onSnapshot(q, {
                     next: (docs) => {
                         docs.docChanges().map((doc, idx) => {
-                            console.log(doc.doc.data());
                             const id: string = doc.doc.id;
                             const name: string = doc.doc.data()?.name;
                             const balance: number = doc.doc.data()?.balance;

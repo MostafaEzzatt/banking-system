@@ -20,20 +20,16 @@ const OnAuthStateChange = () => {
         const unSubAuthStateChange = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userFromFirestore = await getUserById(user.uid);
-                console.log(userFromFirestore);
                 if (userFromFirestore && userFromFirestore.complete) {
-                    dispatch(
-                        login({
-                            user: userFromFirestore.user,
-                            isLoggedIn: userFromFirestore.isLoggedin,
-                        })
-                    );
+                    dispatch(login(userFromFirestore.user));
                 } else if (userFromFirestore && userFromFirestore.error) {
                     signOut(auth);
                     dispatch(logout());
                     toast.error(messages["not-found"], {
                         toastId: "getUserFromFirebase",
                     });
+                } else {
+                    signOut(auth);
                 }
             } else {
                 dispatch(logout());

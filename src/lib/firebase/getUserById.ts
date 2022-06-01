@@ -31,12 +31,12 @@ const getUserById = async (id: string) => {
             const phone: string = user.data()!.phone;
             const role: string = user.data()!.role;
             const active: boolean = user.data()!.active;
-            const created_at: string = new Date(
-                user.data()!.created_at.toDate()
-            ).toString();
-            const modified_at: string = new Date(
-                user.data()!.modified_at.toDate()
-            ).toString();
+            const created_at: string = user.data().created_at
+                ? user.data()!.created_at.toDate().toString()
+                : new Date().toString();
+            const modified_at: string = user.data().modified_at
+                ? user.data()!.modified_at.toDate().toString()
+                : new Date().toString();
 
             return {
                 complete: true,
@@ -56,6 +56,7 @@ const getUserById = async (id: string) => {
         }
     } catch (e: any) {
         const err: string = e.code;
+
         return {
             complete: false,
             error: err,
