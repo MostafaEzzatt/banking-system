@@ -31,6 +31,7 @@ const messages: { [key: string]: string } = {
     unauthenticated: "Unauthenticated",
     "all-fields-required": "please provide all the required fields",
     "account-created": "The Account Created",
+    "account-balance-updated": "The Account Balance Updated",
 };
 
 export default messages;

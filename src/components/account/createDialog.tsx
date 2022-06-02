@@ -83,58 +83,47 @@ const CreateDialog = (props: { handle: Dispatch<SetStateAction<boolean>> }) => {
         props.handle(false);
     };
 
-    return createPortal(
-        <motion.div
-            key="createDialog"
-            animate={{ opacity: 1 }}
-            initial={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="absolute inset-0 bg-black/50 flex justify-center items-center"
-            onClick={() => props.handle(false)}
+    return (
+        <div
+            className="w-80 bg-gray-50 rounded px-3 py-4 drop-shadow-md"
+            onClick={(e) => e.stopPropagation()}
         >
-            <div
-                className="w-80 bg-gray-50 rounded px-3 py-4 drop-shadow-md"
-                onClick={(e) => e.stopPropagation()}
+            <h3 className="font-semibold mb-2 text-slate-900">
+                Create Account
+            </h3>
+            <hr />
+
+            <form
+                className="flex flex-col gap-4"
+                onSubmit={handleCreateAccount}
             >
-                <h3 className="font-semibold mb-2 text-slate-900">
-                    Create Account
-                </h3>
-                <hr />
+                <Input
+                    autoComplete="create-account-name"
+                    label="account name"
+                    required
+                    type="text"
+                    placeholder="account name"
+                    ref={accountNameRef}
+                    msg={inputMessages.name}
+                />
 
-                <form
-                    className="flex flex-col gap-4"
-                    onSubmit={handleCreateAccount}
-                >
-                    <Input
-                        autoComplete="create-account-name"
-                        label="account name"
-                        required
-                        type="text"
-                        placeholder="account name"
-                        ref={accountNameRef}
-                        msg={inputMessages.name}
-                    />
+                <Input
+                    autoComplete="create-account-balance"
+                    label="balance"
+                    required
+                    type="text"
+                    placeholder="balance"
+                    ref={balanceRef}
+                    msg={inputMessages.balance}
+                />
 
-                    <Input
-                        autoComplete="create-account-balance"
-                        label="balance"
-                        required
-                        type="text"
-                        placeholder="balance"
-                        ref={balanceRef}
-                        msg={inputMessages.balance}
-                    />
-
-                    <ButtonPrimary
-                        disabled={isDisabled}
-                        txt="create"
-                        type="submit"
-                    />
-                </form>
-            </div>
-        </motion.div>,
-        document.getElementById("bank-dialogs")!
+                <ButtonPrimary
+                    disabled={isDisabled}
+                    txt="create"
+                    type="submit"
+                />
+            </form>
+        </div>
     );
 };
 

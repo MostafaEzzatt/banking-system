@@ -17,11 +17,12 @@ const useGetUserBankAccount = (id: string | string[] | undefined) => {
 
             if (accountId !== -1) {
                 setAccount(accounts[accountId]);
+                setLoading(false);
+                setError(false);
             } else {
                 setError(true);
+                setLoading(false);
             }
-
-            setLoading(false);
         } else {
             setError(true);
             setLoading(false);

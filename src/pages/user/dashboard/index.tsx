@@ -10,6 +10,7 @@ import ActionBarHeading from "../../../components/layout/actionBar/actionBarHead
 import ActionBarButton from "../../../components/layout/actionBar/button";
 import DashboardLayout from "../../../components/layout/dashboardLayout";
 import ifAuthintecatedUser from "../../../components/routeProtection/ifAuthentecatedUser";
+import DialogContainer from "../../../components/shared/dialogContainer";
 
 // redux
 import { useAppSelector } from "../../../hooks/redux";
@@ -20,7 +21,11 @@ const Dashboard = () => {
     return (
         <>
             <AnimatePresence exitBeforeEnter>
-                {show && <CreateDialog handle={setShow} />}
+                {show && (
+                    <DialogContainer handle={setShow}>
+                        <CreateDialog handle={setShow} />
+                    </DialogContainer>
+                )}
             </AnimatePresence>
 
             <DashboardLayout>
