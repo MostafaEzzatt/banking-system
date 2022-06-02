@@ -18,7 +18,7 @@ const ifAuthentecatedAdmin = <T extends object>(
         const router = useRouter();
 
         useEffect(() => {
-            if (!auth.isLoggedIn) {
+            if (!auth.isLoggedIn && auth.isLoggedIn != null) {
                 router.replace("/");
             } else if (auth.isLoggedIn && auth.user.role !== "admin") {
                 router.replace("/");

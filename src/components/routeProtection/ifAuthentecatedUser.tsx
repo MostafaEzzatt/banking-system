@@ -23,7 +23,7 @@ const ifAuthentecatedUser = <T extends object>(
         const router = useRouter();
 
         useEffect(() => {
-            if (!authSelector.isLoggedIn) {
+            if (!authSelector.isLoggedIn && authSelector.isLoggedIn != null) {
                 router.replace("/");
             } else if (
                 authSelector.isLoggedIn &&
