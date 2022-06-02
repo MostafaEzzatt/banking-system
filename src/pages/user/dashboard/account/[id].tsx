@@ -12,6 +12,10 @@ import DialogContainer from "../../../../components/shared/dialogContainer";
 import LoadingSection from "../../../../components/shared/loadingSection";
 import useGetUserBankAccount from "../../../../hooks/useGetUserBankAccount";
 import ChargeDialog from "../../../../components/account/chargeDialog";
+import List from "../../../../components/account/logs/list";
+import ListItem from "../../../../components/account/logs/listItem";
+import useGetAccountLogs from "../../../../hooks/useGetAccountLogs";
+import FWMessage from "../../../../components/shared/fwMessage";
 
 const Account = () => {
     const router = useRouter();
@@ -21,7 +25,11 @@ const Account = () => {
     const [showWithdraw, setShowWithdraw] = useState(false);
     const created_at = account?.created_at || new Date().toString();
     const modified_at = account?.modified_at || new Date().toString();
+    const accountLogs = useGetAccountLogs(id);
+
+    // console.log(accountLogs);
     if (loading) return <LoadingSection />;
+
     return (
         <DashboardLayout>
             <AnimatePresence exitBeforeEnter>
@@ -49,11 +57,7 @@ const Account = () => {
                 </div>
             </ActionBar>
 
-            {error && (
-                <div className="mt-7 text-center bg-slate-700 text-white font-medium text-lg py-4 rounded">
-                    Something Went Wrong
-                </div>
-            )}
+            {error && <FWMessage txt="Something Went Wrong" />}
 
             {!error && (
                 <div className="bg-slate-500 mt-7 rounded px-2.5 py-3.5">
@@ -92,25 +96,22 @@ const Account = () => {
                 </div>
             )}
 
-            {!error && (
-                <div className="bg-slate-500 mt-7 rounded px-2.5 py-3.5">
-                    <div className="bg-slate-900 px-3 py-2">
-                        <ul className="space-y-2">
-                            <li className="text-slate-300">
-                                - [ charge ] Owner Charged The Account From 1010
-                                To 1020
-                            </li>
-                            <li className="text-slate-300">
-                                - [ charge ] Owner Charged The Account From 1010
-                                To 1020
-                            </li>
-                            <li className="text-slate-300">
-                                - [ charge ] Owner Charged The Account From 1010
-                                To 1020
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            {!error && !accountLogs.error && !accountLogs.loading ? (
+                <List>
+                    <>
+                        {accountLogs.log &&
+                            accountLogs.log.map((l) => (
+                                <ListItem
+                                    key={l.id}
+                                    type={l.type}
+                                    before={l.beforeAmount}
+                                    after={l.afterAmount}
+                                />
+                            ))}
+                    </>
+                </List>
+            ) : (
+                <FWMessage txt="No Logs Yet" />
             )}
         </DashboardLayout>
     );

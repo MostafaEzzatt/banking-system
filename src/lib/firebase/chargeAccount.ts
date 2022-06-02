@@ -35,6 +35,7 @@ const chargeAccount = async (
             beforeAmount: balanceBeforeUpdate,
             afterAmount: balanceBeforeUpdate + amount,
             type: "charge",
+            created_at: new Date(),
         });
 
         return {
