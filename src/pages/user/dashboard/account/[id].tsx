@@ -54,6 +54,7 @@ const Account = () => {
                     Something Went Wrong
                 </div>
             )}
+
             {!error && (
                 <div className="bg-slate-500 mt-7 rounded px-2.5 py-3.5">
                     <h2 className="text-white font-semibold text-xl border-b border-slate-600 pb-3">
@@ -88,6 +89,27 @@ const Account = () => {
                             </span>
                         </li>
                     </ul>
+                </div>
+            )}
+
+            {!error && (
+                <div className="bg-slate-500 mt-7 rounded px-2.5 py-3.5">
+                    <div className="bg-slate-900 px-3 py-2">
+                        <ul className="space-y-2">
+                            <li className="text-slate-300">
+                                - [ charge ] Owner Charged The Account From 1010
+                                To 1020
+                            </li>
+                            <li className="text-slate-300">
+                                - [ charge ] Owner Charged The Account From 1010
+                                To 1020
+                            </li>
+                            <li className="text-slate-300">
+                                - [ charge ] Owner Charged The Account From 1010
+                                To 1020
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             )}
         </DashboardLayout>

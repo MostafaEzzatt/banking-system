@@ -34,6 +34,7 @@ const chargeAccount = async (
             owner: doc(fireStore, "users", userId),
             beforeAmount: balanceBeforeUpdate,
             afterAmount: balanceBeforeUpdate + amount,
+            type: "charge",
         });
 
         return {
