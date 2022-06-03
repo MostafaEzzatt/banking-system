@@ -53,12 +53,15 @@ const Accounts = (props: { user: authState }) => {
                                 .modified_at?.toDate()
                                 .toString();
 
+                            const activated = doc.doc.data()?.activated;
+
                             const account: account = {
                                 id,
                                 name,
                                 balance,
                                 created_at,
                                 modified_at,
+                                activated,
                             };
 
                             if (doc.type == "added") {

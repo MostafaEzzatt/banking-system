@@ -18,9 +18,10 @@ const useGetAccountLogs = (id: string | string[] | undefined) => {
             !Array.isArray(id) &&
             !allLogs.isLoading
         ) {
-            const log = allLogs.logs.filter((log) => log.account == id);
+            const log = allLogs.logs.filter(
+                (log) => log.account == id || log?.toAccount == id
+            );
 
-            console.log({ allLogs, log });
             if (log.length > 0) {
                 setLog(log);
                 setLoading(false);

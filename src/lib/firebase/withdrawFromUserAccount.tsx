@@ -1,9 +1,8 @@
 import { addDoc, collection, doc, runTransaction } from "firebase/firestore";
 import ToastType from "../../type/toast";
-import addLog from "./addLog";
 import { fireStore } from "./config";
 
-const chargeAccount = async (
+const withdrawFromUserAccount = async (
     accountId: string | undefined,
     amount: number,
     userId: string
@@ -16,28 +15,30 @@ const chargeAccount = async (
 
     try {
         let balanceBeforeUpdate: number = 0;
+
         await runTransaction(fireStore, async (transition) => {
             const accountDocRef = doc(fireStore, "accounts", accountId);
             const checkAccount = await transition.get(accountDocRef);
 
             if (!checkAccount.exists) {
-                throw Error("not-found");
+                throw "not-found";
             }
 
             balanceBeforeUpdate = checkAccount.data()!.balance;
-            const newBalance = checkAccount.data()!.balance + amount;
+            const newBalance = checkAccount.data()!.balance - amount;
             transition.update(accountDocRef, {
                 balance: newBalance,
                 modified_at: new Date(),
             });
         });
 
-        await addLog({
+        const logcolRef = collection(fireStore, "logs");
+        await addDoc(logcolRef, {
             account: doc(fireStore, "accounts", accountId),
             owner: [doc(fireStore, "users", userId)],
             beforeAmount: balanceBeforeUpdate,
-            afterAmount: balanceBeforeUpdate + amount,
-            type: "charge",
+            afterAmount: balanceBeforeUpdate - amount,
+            type: "withdraw",
             created_at: new Date(),
         });
 
@@ -52,4 +53,4 @@ const chargeAccount = async (
     }
 };
 
-export default chargeAccount;
+export default withdrawFromUserAccount;

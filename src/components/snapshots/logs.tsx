@@ -33,7 +33,7 @@ const Logs = (props: { user: authState }) => {
                     user.user.role == "user"
                         ? query(
                               logsColRef,
-                              where("owner", "==", userDocRef),
+                              where("owner", "array-contains", userDocRef),
                               orderBy("created_at", "asc")
                           )
                         : query(logsColRef);
@@ -43,13 +43,21 @@ const Logs = (props: { user: authState }) => {
                         docs.docChanges().map((doc, idx) => {
                             const id: string = doc.doc.id;
                             const account: string = doc.doc.data()?.account.id;
-                            const owner: string = doc.doc.data()?.owner.id;
-                            const type: "charge" | "withdraw" =
+                            const owner: string =
+                                doc.doc.data()?.type == "transaction"
+                                    ? doc.doc.data()?.from.id
+                                    : doc.doc.data()?.owner[0].id;
+                            const type: "charge" | "withdraw" | "transaction" =
                                 doc.doc.data()?.type;
                             const beforeAmount: number =
                                 doc.doc.data()?.beforeAmount;
                             const afterAmount: number =
                                 doc.doc.data()?.afterAmount;
+                            const from: string = doc.doc.data()?.from?.id;
+                            const to: string = doc.doc.data()?.to?.id;
+                            const toAccount: string =
+                                doc.doc.data()?.toAccount?.id;
+                            const amount: number = doc.doc.data()?.amount;
                             const created_at: string = doc.doc
                                 .data()
                                 ?.created_at.toDate()
@@ -63,6 +71,10 @@ const Logs = (props: { user: authState }) => {
                                 beforeAmount,
                                 afterAmount,
                                 created_at,
+                                from,
+                                to,
+                                toAccount,
+                                amount,
                             };
 
                             if (doc.type == "added") {

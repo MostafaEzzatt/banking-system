@@ -32,6 +32,9 @@ const messages: { [key: string]: string } = {
     "all-fields-required": "please provide all the required fields",
     "account-created": "The Account Created",
     "account-balance-updated": "The Account Balance Updated",
+    transaction_done: "The Transaction Done",
+    "not-enough-balance": "Not enough balance",
+    auth_problem: "Please Re-login And Try Again",
 };
 
 export default messages;

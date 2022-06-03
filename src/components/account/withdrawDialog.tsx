@@ -7,47 +7,56 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../hooks/redux";
-import chargeAccount from "../../lib/firebase/chargeAccount";
+import withdrawFromUserAccount from "../../lib/firebase/withdrawFromUserAccount";
 import messages from "../../messages/firebase";
+import { account } from "../../type/reduxAccountsState";
 import checkAccountAmount from "../../utility/checkAccountAmount";
 import ButtonPrimary from "../forms/buttonPrimary";
 import Input from "../inputs/input";
 
-const ChargeDialog = (props: {
+const WithdrawDialog = (props: {
     handle: Dispatch<SetStateAction<boolean>>;
-    accountId: string | undefined;
+    account: account | null;
 }) => {
-    const amountRef = useRef<HTMLInputElement>(null);
     const [isDisabled, setIsDisabled] = useState(false);
-    const [inputMessages, setInputMessages] = useState("");
+    const amountRef = useRef<HTMLInputElement>(null);
+    const [inputMessage, setInputMessage] = useState("");
     const auth = useAppSelector((state) => state.auth);
 
-    const handleChargeAccount = async (e: SyntheticEvent) => {
+    const handleWidthdraw = async (e: SyntheticEvent) => {
         e.preventDefault();
+        if (typeof props.account == null || !props.account) return;
+
         setIsDisabled(true);
 
         const amount = parseFloat(amountRef.current?.value || "0");
 
         if (!amount) {
-            setInputMessages("All Fields Required");
+            setInputMessage("All Fields Required");
             setIsDisabled(false);
             return;
         }
 
         if (!checkAccountAmount(amount)) {
-            setInputMessages("Amount Must Be Greater Than 0");
+            setInputMessage("Amount Must Be Greater Than 0");
             setIsDisabled(false);
             return;
         }
 
-        if (props.accountId == "undefined") {
-            setInputMessages("Account Not Found Try Again Later");
+        if (props.account?.id == "undefined") {
+            setInputMessage("Account Not Found Try Again Later");
             setIsDisabled(false);
             return;
         }
 
-        const charge = await chargeAccount(
-            props.accountId,
+        if (props.account.balance < amount) {
+            setInputMessage("Insufficient Balance");
+            setIsDisabled(false);
+            return;
+        }
+
+        const charge = await withdrawFromUserAccount(
+            props.account.id,
             amount,
             auth.user.uid
         );
@@ -65,36 +74,35 @@ const ChargeDialog = (props: {
             return;
         }
     };
-
-    if (props.accountId === "undefined") return <></>;
     return (
         <div
             className="w-80 bg-gray-50 rounded px-3 py-4 drop-shadow-md"
             onClick={(e) => e.stopPropagation()}
         >
             <h3 className="font-semibold mb-2 text-slate-900">
-                Charge Account
+                Withdraw From Account
             </h3>
             <hr />
 
-            <form
-                className="flex flex-col gap-4"
-                onSubmit={handleChargeAccount}
-            >
+            <form className="flex flex-col gap-4" onSubmit={handleWidthdraw}>
                 <Input
-                    autoComplete="charge-account-balance"
+                    autoComplete="widthdraw-account-balance"
                     label="amount"
                     required
                     type="text"
                     placeholder="balance"
                     ref={amountRef}
-                    msg={inputMessages}
+                    msg={inputMessage}
                 />
 
-                <ButtonPrimary disabled={isDisabled} txt="add" type="submit" />
+                <ButtonPrimary
+                    disabled={isDisabled}
+                    txt="withdraw"
+                    type="submit"
+                />
             </form>
         </div>
     );
 };
 
-export default ChargeDialog;
+export default WithdrawDialog;

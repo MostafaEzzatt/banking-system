@@ -38,7 +38,7 @@ const ifAuthentecatedUser = <T extends object>(
                 signOut(auth);
                 dispatch(logout());
                 toast.info("Please Wait Until Your Account Be Verified", {
-                    toastId: "verifyMessage",
+                    toastId: "verifyUserMessage",
                 });
             }
         }, [

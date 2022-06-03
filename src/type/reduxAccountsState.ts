@@ -4,6 +4,7 @@ export interface account {
     balance: number;
     created_at: string;
     modified_at: string;
+    activated: boolean;
 }
 
 export default interface accountState {

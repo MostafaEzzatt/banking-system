@@ -29,6 +29,7 @@ const createUserBankAccount = async (
             created_at: new Date(),
             modified_at: new Date(),
             owner: userRef,
+            activated: false,
         });
 
         return { complete: true, error: "account-created", type: success };

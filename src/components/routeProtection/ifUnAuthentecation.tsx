@@ -26,7 +26,8 @@ const ifUnAuthentecated = <T extends object>(
         }, [auth.isLoggedIn, auth.user.role, router]);
 
         if (auth.isLoggedIn == null) return <LoadingFullScreen />;
-        return <Component {...props} />;
+        if (auth.isLoggedIn) return <></>;
+        if (!auth.isLoggedIn) return <Component {...props} />;
     };
 };
 

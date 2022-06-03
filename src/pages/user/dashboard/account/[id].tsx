@@ -1,21 +1,25 @@
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 // components
+import ChargeDialog from "../../../../components/account/chargeDialog";
+import Info from "../../../../components/account/info";
+import List from "../../../../components/account/logs/list";
+import ListItem from "../../../../components/account/logs/listItem";
+import Transaction from "../../../../components/account/transactionDialog";
+import WithdrawDialog from "../../../../components/account/withdrawDialog";
 import ActionBar from "../../../../components/layout/actionBar";
 import ActionBarHeading from "../../../../components/layout/actionBar/actionBarHeading";
 import ActionBarButton from "../../../../components/layout/actionBar/button";
 import DashboardLayout from "../../../../components/layout/dashboardLayout";
 import ifAuthentecatedUser from "../../../../components/routeProtection/ifAuthentecatedUser";
 import DialogContainer from "../../../../components/shared/dialogContainer";
-import LoadingSection from "../../../../components/shared/loadingSection";
-import useGetUserBankAccount from "../../../../hooks/useGetUserBankAccount";
-import ChargeDialog from "../../../../components/account/chargeDialog";
-import List from "../../../../components/account/logs/list";
-import ListItem from "../../../../components/account/logs/listItem";
-import useGetAccountLogs from "../../../../hooks/useGetAccountLogs";
 import FWMessage from "../../../../components/shared/fwMessage";
+import LoadingSection from "../../../../components/shared/loadingSection";
+import useGetAccountLogs from "../../../../hooks/useGetAccountLogs";
+import useGetUserBankAccount from "../../../../hooks/useGetUserBankAccount";
 
 const Account = () => {
     const router = useRouter();
@@ -23,12 +27,19 @@ const Account = () => {
     const { loading, error, account } = useGetUserBankAccount(id);
     const [showCharge, setShowCharge] = useState(false);
     const [showWithdraw, setShowWithdraw] = useState(false);
-    const created_at = account?.created_at || new Date().toString();
-    const modified_at = account?.modified_at || new Date().toString();
+    const [showTransaction, setShowTransaction] = useState(false);
     const accountLogs = useGetAccountLogs(id);
 
-    // console.log(accountLogs);
     if (loading) return <LoadingSection />;
+
+    if (!account?.activated) {
+        toast.info(
+            "Your account is not activated yet. Please wait for admin to activate your account.",
+            { toastId: "account-activation" }
+        );
+        router.replace("/");
+        return <></>;
+    }
 
     return (
         <DashboardLayout>
@@ -41,6 +52,24 @@ const Account = () => {
                         />
                     </DialogContainer>
                 )}
+
+                {showWithdraw && (
+                    <DialogContainer handle={setShowWithdraw}>
+                        <WithdrawDialog
+                            handle={setShowWithdraw}
+                            account={account}
+                        />
+                    </DialogContainer>
+                )}
+
+                {showTransaction && (
+                    <DialogContainer handle={setShowTransaction}>
+                        <Transaction
+                            handle={setShowTransaction}
+                            account={account}
+                        />
+                    </DialogContainer>
+                )}
             </AnimatePresence>
             <ActionBar>
                 <ActionBarHeading txt={`Account Name: ${account?.name}`} />
@@ -50,9 +79,15 @@ const Account = () => {
                         txt="Charge"
                         click={() => setShowCharge(true)}
                     />
+
                     <ActionBarButton
                         txt="Withdraw"
                         click={() => setShowWithdraw(true)}
+                    />
+
+                    <ActionBarButton
+                        txt="Transaction"
+                        click={() => setShowTransaction(true)}
                     />
                 </div>
             </ActionBar>
@@ -65,34 +100,7 @@ const Account = () => {
                         Account Information:
                     </h2>
 
-                    <ul className="space-y-3 text-slate-200 mt-3 px-2 sm:pr-0">
-                        <li className="space-x-1">
-                            <span className="text-orange-200 font-medium">
-                                Account ID:
-                            </span>
-                            <span> {account?.id}</span>
-                        </li>
-                        <li className="space-x-1">
-                            <span className="text-orange-200 font-medium">
-                                Balance:
-                            </span>
-                            <span> {account?.balance}</span>
-                        </li>
-                        <li className="space-x-1">
-                            <span className="text-orange-200 font-medium">
-                                Created At:
-                            </span>
-                            <span>{new Date(created_at).toLocaleString()}</span>
-                        </li>
-                        <li className="space-x-1">
-                            <span className="text-orange-200 font-medium">
-                                Last Modification:
-                            </span>
-                            <span>
-                                {new Date(modified_at).toLocaleString()}
-                            </span>
-                        </li>
-                    </ul>
+                    <Info account={account} />
                 </div>
             )}
 
@@ -101,12 +109,7 @@ const Account = () => {
                     <>
                         {accountLogs.log &&
                             accountLogs.log.map((l) => (
-                                <ListItem
-                                    key={l.id}
-                                    type={l.type}
-                                    before={l.beforeAmount}
-                                    after={l.afterAmount}
-                                />
+                                <ListItem key={l.id} log={l} accountId={id} />
                             ))}
                     </>
                 </List>
