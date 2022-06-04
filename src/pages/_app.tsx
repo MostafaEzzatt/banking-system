@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
 import "../styles/globals.css";
 
 // components
@@ -12,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 // redux
 import { Provider } from "react-redux";
 import { store } from "../store";
-import Layout from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -20,10 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ToastContainer theme="dark" />
             <Provider store={store}>
                 <OnAuthStateChange />
-                <Snapshots />
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
+                <Component {...pageProps} />
             </Provider>
         </>
     );
