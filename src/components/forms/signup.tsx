@@ -19,6 +19,7 @@ import messages from "../../messages/firebase";
 
 // redux
 import { useAppSelector } from "../../hooks/redux";
+import ButtonPrimary from "./buttonPrimary";
 
 const Signup = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -125,7 +126,6 @@ const Signup = () => {
 
         const create = await createUserWithEmail(username, password, tele);
         const q = messages[create.error] || messages["unknown"];
-
         toast(q, {
             toastId: "signup",
             type: create.icon || "default",
@@ -184,13 +184,11 @@ const Signup = () => {
                         msg={errors.tele}
                     />
 
-                    <button
-                        type="submit"
-                        className="w-full bg-orange-600 text-white py-3 font-medium hover:bg-orange-500 focus:bg-orange-300 cursor-pointer"
+                    <ButtonPrimary
+                        txt="Sign up"
                         disabled={isDisabled}
-                    >
-                        Sign up
-                    </button>
+                        type="submit"
+                    />
                 </div>
             </form>
         </>

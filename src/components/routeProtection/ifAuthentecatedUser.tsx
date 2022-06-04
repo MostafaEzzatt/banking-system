@@ -23,7 +23,7 @@ const ifAuthentecatedUser = <T extends object>(
         const router = useRouter();
 
         useEffect(() => {
-            if (!authSelector.isLoggedIn) {
+            if (!authSelector.isLoggedIn && authSelector.isLoggedIn != null) {
                 router.replace("/");
             } else if (
                 authSelector.isLoggedIn &&
@@ -38,7 +38,7 @@ const ifAuthentecatedUser = <T extends object>(
                 signOut(auth);
                 dispatch(logout());
                 toast.info("Please Wait Until Your Account Be Verified", {
-                    toastId: "verifyMessage",
+                    toastId: "verifyUserMessage",
                 });
             }
         }, [

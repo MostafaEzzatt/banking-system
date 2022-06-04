@@ -3,6 +3,7 @@ import "../styles/globals.css";
 
 // components
 import OnAuthStateChange from "../components/onInitApp/onAuthStateChange";
+import Snapshots from "../components/snapshots";
 
 // toastify
 import { ToastContainer } from "react-toastify";
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ToastContainer theme="dark" />
             <Provider store={store}>
                 <OnAuthStateChange />
+                <Snapshots />
                 <Component {...pageProps} />
             </Provider>
         </>
