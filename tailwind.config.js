@@ -1,11 +1,7 @@
 module.exports = {
     content: ["./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
-        extend: {
-            height: {
-                "custom-screen": "calc(100vh - 92px)",
-            },
-        },
+        extend: {},
     },
     plugins: [require("@tailwindcss/forms")({ strategy: "base" })],
 };
