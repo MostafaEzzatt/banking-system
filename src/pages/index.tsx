@@ -13,6 +13,7 @@ import Switch from "../components/shared/switch";
 
 // Route Protection
 import ifUnAuthintecated from "../components/routeProtection/ifUnAuthentecation";
+import { useAppSelector } from "../hooks/redux";
 
 const Home: NextPage = () => {
     const [switchForm, setSwitchForm] = useState(true);

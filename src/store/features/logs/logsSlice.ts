@@ -41,9 +41,14 @@ export const logsSlice = createSlice({
         finishLoading: (state: logsState) => {
             state.isLoading = false;
         },
+        clearLogs: (state: logsState) => {
+            state.logs = [];
+            state.isLoading = true;
+        },
     },
 });
 
-export const { add, update, finishLoading, remove } = logsSlice.actions;
+export const { add, update, finishLoading, remove, clearLogs } =
+    logsSlice.actions;
 
 export default logsSlice.reducer;

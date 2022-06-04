@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 // redux
 import { Provider } from "react-redux";
 import { store } from "../store";
+import Layout from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Provider store={store}>
                 <OnAuthStateChange />
                 <Snapshots />
-                <Component {...pageProps} />
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </Provider>
         </>
     );

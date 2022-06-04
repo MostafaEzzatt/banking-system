@@ -4,7 +4,9 @@ import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { auth } from "../../lib/firebase/config";
+import { clearAccounts } from "../../store/features/accounts/accounsSlice";
 import { logout } from "../../store/features/auth/authSlice";
+import { clearLogs } from "../../store/features/logs/logsSlice";
 import ButtonSecondary from "../forms/buttonSecondary";
 
 const Header = () => {
@@ -13,7 +15,9 @@ const Header = () => {
 
     const handleSignout = () => {
         signOut(auth);
-        dispatch(logout);
+        dispatch(logout());
+        dispatch(clearAccounts());
+        dispatch(clearLogs());
     };
 
     return (

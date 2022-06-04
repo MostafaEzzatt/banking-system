@@ -41,9 +41,14 @@ export const accountsSlice = createSlice({
         finishLoading: (state: accountState) => {
             state.isLoading = false;
         },
+        clearAccounts: (state: accountState) => {
+            state.accounts = [];
+            state.isLoading = true;
+        },
     },
 });
 
-export const { add, update, finishLoading, remove } = accountsSlice.actions;
+export const { add, update, finishLoading, remove, clearAccounts } =
+    accountsSlice.actions;
 
 export default accountsSlice.reducer;

@@ -13,7 +13,6 @@ import WithdrawDialog from "../../../../components/account/withdrawDialog";
 import ActionBar from "../../../../components/layout/actionBar";
 import ActionBarHeading from "../../../../components/layout/actionBar/actionBarHeading";
 import ActionBarButton from "../../../../components/layout/actionBar/button";
-import DashboardLayout from "../../../../components/layout/dashboardLayout";
 import ifAuthentecatedUser from "../../../../components/routeProtection/ifAuthentecatedUser";
 import DialogContainer from "../../../../components/shared/dialogContainer";
 import FWMessage from "../../../../components/shared/fwMessage";
@@ -42,7 +41,7 @@ const Account = () => {
     }
 
     return (
-        <DashboardLayout>
+        <>
             <AnimatePresence exitBeforeEnter>
                 {showCharge && (
                     <DialogContainer handle={setShowCharge}>
@@ -116,7 +115,7 @@ const Account = () => {
             ) : (
                 <FWMessage txt="No Logs Yet" />
             )}
-        </DashboardLayout>
+        </>
     );
 };
 
