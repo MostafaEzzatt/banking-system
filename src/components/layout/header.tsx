@@ -7,6 +7,7 @@ import { auth } from "../../lib/firebase/config";
 import { clearAccounts } from "../../store/features/accounts/accounsSlice";
 import { logout } from "../../store/features/auth/authSlice";
 import { clearLogs } from "../../store/features/logs/logsSlice";
+import { clearUsers } from "../../store/features/users/usersSlice";
 import ButtonSecondary from "../forms/buttonSecondary";
 
 const Header = () => {
@@ -18,6 +19,7 @@ const Header = () => {
         dispatch(logout());
         dispatch(clearAccounts());
         dispatch(clearLogs());
+        dispatch(clearUsers());
     };
 
     return (

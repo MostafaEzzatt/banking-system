@@ -29,7 +29,7 @@ const WithdrawDialog = (props: {
 
         setIsDisabled(true);
 
-        const amount = parseFloat(amountRef.current?.value || "0");
+        const amount = parseFloat(amountRef.current?.value.trim() || "0");
 
         if (!amount) {
             setInputMessage("All Fields Required");

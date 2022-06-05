@@ -26,7 +26,7 @@ const ChargeDialog = (props: {
         e.preventDefault();
         setIsDisabled(true);
 
-        const amount = parseFloat(amountRef.current?.value || "0");
+        const amount = parseFloat(amountRef.current?.value.trim() || "0");
 
         if (!amount) {
             setInputMessages("All Fields Required");

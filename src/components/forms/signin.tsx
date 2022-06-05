@@ -39,8 +39,8 @@ const Signin = () => {
 
         setIsDisabled(true);
 
-        const username = usernameRef.current?.value;
-        const password = passwordRef.current?.value;
+        const username = usernameRef.current?.value.trim();
+        const password = passwordRef.current?.value.trim();
 
         // check if any field empty
         if (!username || !password) {

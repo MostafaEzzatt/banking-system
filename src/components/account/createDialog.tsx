@@ -31,10 +31,8 @@ const CreateDialog = (props: { handle: Dispatch<SetStateAction<boolean>> }) => {
         if (!auth.isLoggedIn) return;
         SetIsDisabled(true);
 
-        setInputMessages({ name: "", balance: "" });
-
-        const accountName = accountNameRef.current?.value;
-        const balance = balanceRef.current?.value;
+        const accountName = accountNameRef.current?.value.trim();
+        const balance = balanceRef.current?.value.trim();
 
         if (!accountName || !balance) {
             setInputMessages({
@@ -46,10 +44,10 @@ const CreateDialog = (props: { handle: Dispatch<SetStateAction<boolean>> }) => {
         }
 
         if (!checkUserAccountName(accountName)) {
-            setInputMessages((old) => ({
-                ...old,
+            setInputMessages({
                 name: "Account Name Length Must Be Between 3 and 20 Characters",
-            }));
+                balance: "",
+            });
             SetIsDisabled(false);
             return;
         }
@@ -59,10 +57,10 @@ const CreateDialog = (props: { handle: Dispatch<SetStateAction<boolean>> }) => {
             isNaN(parseFloat(balance)) ||
             parseFloat(balance) <= 0
         ) {
-            setInputMessages((old) => ({
-                ...old,
+            setInputMessages({
+                name: "",
                 balance: "Balance Must Be A Positive Number",
-            }));
+            });
 
             SetIsDisabled(false);
             return;

@@ -7,13 +7,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 
 // components
-import Signup from "../components/forms/signup";
 import Signin from "../components/forms/signin";
+import Signup from "../components/forms/signup";
 import Switch from "../components/shared/switch";
 
 // Route Protection
 import ifUnAuthintecated from "../components/routeProtection/ifUnAuthentecation";
-import { useAppSelector } from "../hooks/redux";
 
 const Home: NextPage = () => {
     const [switchForm, setSwitchForm] = useState(true);
