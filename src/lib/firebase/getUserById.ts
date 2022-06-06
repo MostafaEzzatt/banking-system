@@ -9,6 +9,7 @@ const getUserById = async (id: string) => {
         phone: "",
         role: null,
         active: false,
+        suspend: false,
         created_at: new Date().toString(),
         modified_at: new Date().toString(),
     };
@@ -31,6 +32,7 @@ const getUserById = async (id: string) => {
             const phone: string = user.data()!.phone;
             const role: string = user.data()!.role;
             const active: boolean = user.data()!.active;
+            const suspend: boolean = user.data()!.suspend;
             const created_at: string = user.data().created_at
                 ? user.data()!.created_at.toDate().toString()
                 : new Date().toString();
@@ -46,6 +48,7 @@ const getUserById = async (id: string) => {
                     phone,
                     role,
                     active,
+                    suspend,
                     created_at,
                     modified_at,
                 },

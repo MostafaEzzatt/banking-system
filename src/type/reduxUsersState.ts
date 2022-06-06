@@ -9,7 +9,7 @@ export interface user {
     modified_at: string;
 }
 
-export default interface authState {
-    user: user;
-    isLoggedIn: boolean | null;
+export default interface usersState {
+    users: user[];
+    isLoading: boolean | null;
 }

@@ -30,17 +30,17 @@ const Transaction = (props: {
 
     const handleTransaction = async (e: SyntheticEvent) => {
         e.preventDefault();
+
         if (typeof props.account == null || !props.account) return;
 
         setIsDisabled(true);
-        setInputMessage({ accountId: "", amount: "" });
 
-        const amount = parseFloat(amountRef.current?.value || "0");
-        const transactionAccountId = accountIdRef.current?.value || "";
+        const amount = parseFloat(amountRef.current?.value.trim() || "0");
+        const transactionAccountId = accountIdRef.current?.value.trim() || "";
 
         if (!amount) {
             setInputMessage({
-                ...inputMessage,
+                accountId: "",
                 amount: "All Fields Required",
             });
             setIsDisabled(false);
@@ -49,8 +49,8 @@ const Transaction = (props: {
 
         if (!transactionAccountId) {
             setInputMessage({
-                ...inputMessage,
                 accountId: "All Fields Required",
+                amount: "",
             });
             setIsDisabled(false);
             return;
@@ -58,7 +58,7 @@ const Transaction = (props: {
 
         if (!checkAccountAmount(amount)) {
             setInputMessage({
-                ...inputMessage,
+                accountId: "",
                 amount: "Amount Must Be Greater Than 0",
             });
             setIsDisabled(false);
@@ -67,8 +67,8 @@ const Transaction = (props: {
 
         if (!checkAccountId(transactionAccountId)) {
             setInputMessage({
-                ...inputMessage,
                 accountId: "Account ID Incorrect",
+                amount: "",
             });
             setIsDisabled(false);
             return;
@@ -76,8 +76,8 @@ const Transaction = (props: {
 
         if (props.account?.id == "undefined") {
             setInputMessage({
-                ...inputMessage,
                 accountId: "Account Not Found Try Again Later",
+                amount: "",
             });
             setIsDisabled(false);
             return;
@@ -85,13 +85,12 @@ const Transaction = (props: {
 
         if (props.account.balance < amount) {
             setInputMessage({
-                ...inputMessage,
-                accountId: "Insufficient Balance",
+                accountId: "",
+                amount: "Insufficient Balance",
             });
             setIsDisabled(false);
             return;
         }
-
         const transaction = await transactBalanceFromUserToUserAccount(
             props.account?.id,
             transactionAccountId,

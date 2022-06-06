@@ -26,63 +26,66 @@ const Accounts = (props: { user: authState }) => {
     useEffect(() => {
         let unSub: Unsubscribe;
         if (user.isLoggedIn) {
-            const getAccounts = async () => {
-                const userDocRef = doc(fireStore, "users", user.user.uid);
-                const accountsColRef = collection(fireStore, "accounts");
-                const q =
-                    user.user.role == "user"
-                        ? query(
-                              accountsColRef,
-                              where("owner", "==", userDocRef),
-                              orderBy("created_at", "asc")
-                          )
-                        : query(accountsColRef);
+            if (user.isLoggedIn) {
+                const getAccounts = async () => {
+                    const userDocRef = doc(fireStore, "users", user.user.uid);
+                    const accountsColRef = collection(fireStore, "accounts");
+                    const q =
+                        user.user.role == "user"
+                            ? query(
+                                  accountsColRef,
+                                  where("owner", "==", userDocRef),
+                                  orderBy("created_at", "asc")
+                              )
+                            : query(accountsColRef);
 
-                return onSnapshot(q, {
-                    next: (docs) => {
-                        docs.docChanges().map((doc, idx) => {
-                            const id: string = doc.doc.id;
-                            const name: string = doc.doc.data()?.name;
-                            const balance: number = doc.doc.data()?.balance;
-                            const created_at: string = doc.doc
-                                .data()
-                                .created_at.toDate()
-                                .toString();
-                            const modified_at: string = doc.doc
-                                .data()
-                                .modified_at?.toDate()
-                                .toString();
+                    return onSnapshot(q, {
+                        next: (docs) => {
+                            docs.docChanges().map((doc, idx) => {
+                                const id: string = doc.doc.id;
+                                const name: string = doc.doc.data()?.name;
+                                const balance: number = doc.doc.data()?.balance;
+                                const created_at: string = doc.doc
+                                    .data()
+                                    .created_at.toDate()
+                                    .toString();
+                                const modified_at: string = doc.doc
+                                    .data()
+                                    .modified_at?.toDate()
+                                    .toString();
+                                const owner = doc.doc.data()?.owner.id;
 
-                            const activated = doc.doc.data()?.activated;
+                                const activated = doc.doc.data()?.activated;
 
-                            const account: account = {
-                                id,
-                                name,
-                                balance,
-                                created_at,
-                                modified_at,
-                                activated,
-                            };
+                                const account: account = {
+                                    id,
+                                    name,
+                                    balance,
+                                    created_at,
+                                    modified_at,
+                                    activated,
+                                    owner,
+                                };
 
-                            if (doc.type == "added") {
-                                dispatch(add(account));
-                            } else if (doc.type == "modified") {
-                                dispatch(update(account));
-                            } else if (doc.type == "removed") {
-                                dispatch(remove(account));
-                            }
+                                if (doc.type == "added") {
+                                    dispatch(add(account));
+                                } else if (doc.type == "modified") {
+                                    dispatch(update(account));
+                                } else if (doc.type == "removed") {
+                                    dispatch(remove(account));
+                                }
 
-                            if (docs.docChanges().length == idx + 1) {
-                                dispatch(finishLoading());
-                            }
-                        });
-                    },
-                });
-            };
+                                if (docs.docChanges().length == idx + 1) {
+                                    dispatch(finishLoading());
+                                }
+                            });
+                        },
+                    });
+                };
 
-            getAccounts();
+                getAccounts();
+            }
         }
-
         return () => {
             if (typeof unSub == "function") {
                 unSub();

@@ -8,6 +8,7 @@ const initialState: authState = {
         phone: "",
         role: null,
         active: false,
+        suspend: false,
         created_at: "",
         modified_at: "",
     },

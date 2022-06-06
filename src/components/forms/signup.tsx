@@ -56,10 +56,10 @@ const Signup = () => {
 
         resetErrors();
 
-        const username = usernameRef.current?.value;
-        const password = passwordRef.current?.value;
-        const rePassword = rePasswordRef.current?.value;
-        const tele = phoneRef.current?.value;
+        const username = usernameRef.current?.value.trim();
+        const password = passwordRef.current?.value.trim();
+        const rePassword = rePasswordRef.current?.value.trim();
+        const tele = phoneRef.current?.value.trim();
 
         // check if any field empty
         if (!username || !password || !rePassword || !tele) {

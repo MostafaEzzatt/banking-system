@@ -13,7 +13,7 @@ const DialogContainer = (props: {
             initial={{ opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="absolute inset-0 bg-black/50 flex justify-center items-center"
+            className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center"
             onClick={() => props.handle(false)}
         >
             {props.children}

@@ -4,30 +4,51 @@ import { useRouter } from "next/router";
 import { NextComponentType } from "next";
 
 // redux
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 
 // componenets
 import LoadingFullScreen from "../shared/loadingFullScreen";
 import { useEffect } from "react";
+import { objectTraps } from "immer/dist/internal";
 
 const ifUnAuthentecated = <T extends object>(
     Component: NextComponentType<T>
 ) => {
     return function UnAuthentecated(props: T) {
-        const auth = useAppSelector((state) => state.auth);
+        const authSelector = useAppSelector((state) => state.auth);
+        const authFromUserSlice = useAppSelector((state) => state.users);
+        const dispatch = useAppDispatch();
         const router = useRouter();
 
         useEffect(() => {
-            if (auth.isLoggedIn) {
+            const authUserSlice = authFromUserSlice.isLoading
+                ? authSelector.user
+                : authFromUserSlice.users.find(
+                      (u) => u.uid == authSelector.user.uid
+                  );
+            if (
+                authSelector.isLoggedIn &&
+                !authFromUserSlice.isLoading &&
+                authUserSlice?.uid !== undefined
+            ) {
                 router.replace(
-                    auth.user.role == "user" ? "/user/dashboard" : "/user/admin"
+                    authUserSlice.role == "user"
+                        ? "/user/dashboard"
+                        : "/user/admin"
                 );
             }
-        }, [auth.isLoggedIn, auth.user.role, router]);
+        }, [
+            authFromUserSlice.isLoading,
+            authFromUserSlice.users,
+            authSelector.isLoggedIn,
+            authSelector.user,
+            authSelector.user.role,
+            router,
+        ]);
 
-        if (auth.isLoggedIn == null) return <LoadingFullScreen />;
-        if (auth.isLoggedIn) return <></>;
-        if (!auth.isLoggedIn) return <Component {...props} />;
+        if (authSelector.isLoggedIn == null) return <LoadingFullScreen />;
+        if (authSelector.isLoggedIn) return <></>;
+        if (!authSelector.isLoggedIn) return <Component {...props} />;
     };
 };
 

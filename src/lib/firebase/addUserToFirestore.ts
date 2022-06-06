@@ -11,6 +11,7 @@ async function addUserToFirestore(mail: string, phone: string, id: string) {
             phone,
             role: "user",
             active: false,
+            suspend: false,
             created_at: new Date(),
             modified_at: new Date(),
         });
