@@ -1,13 +1,17 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { clearLine } from "readline";
 import { useAppSelector } from "../../hooks/redux";
 import { row, rows } from "../../type/tableProps";
+
+// assets
+import DocumentIcon from "../../assets/svg/document.svg";
 
 const TableRow = ({ row }: { row: rows }) => {
     const authSelector = useAppSelector((state) => state.auth.user.uid);
 
     const handleClick = (cell: row) => {
-        if (cell.user.uid === authSelector) {
+        if (cell.user !== undefined && cell.user.uid === authSelector) {
             toast.info(
                 "unable to do that ask another admin to do that for you",
                 {
@@ -17,8 +21,8 @@ const TableRow = ({ row }: { row: rows }) => {
             return;
         }
 
-        if (cell.button) {
-            const done = cell.click(cell.user.uid, cell.value);
+        if (cell.button && cell.click !== undefined) {
+            const done = cell.click(cell.targetId, cell.value);
 
             if (done) {
                 toast.success("Change Applyed", {
@@ -30,6 +34,16 @@ const TableRow = ({ row }: { row: rows }) => {
         }
     };
 
+    const handleUserDialog = (cell: row) => {
+        if (
+            cell.setUserDetails === undefined ||
+            cell.userDetailsDialog === undefined
+        )
+            return;
+
+        cell.setUserDetails();
+        cell.userDetailsDialog(true);
+    };
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             {row.map((cell, idx) => (
@@ -37,16 +51,28 @@ const TableRow = ({ row }: { row: rows }) => {
                     key={idx}
                     className={`px-6 py-4${cell.button ? " text-center" : ""}`}
                 >
-                    {cell.button ? (
-                        <button
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline capitalize"
-                            onClick={() => handleClick(cell)}
-                        >
-                            {cell.txt}
-                        </button>
-                    ) : (
-                        cell.txt
-                    )}
+                    <div className="flex items-center gap-2">
+                        {cell.button ? (
+                            <button
+                                className="font-medium text-orange-600 dark:text-orange-500 hover:underline capitalize"
+                                onClick={() => handleClick(cell)}
+                            >
+                                {cell.txt}
+                            </button>
+                        ) : (
+                            cell.txt
+                        )}
+
+                        {cell.setUserDetails !== undefined &&
+                            cell.userDetailsDialog !== undefined && (
+                                <button
+                                    className="font-medium text-orange-600 dark:text-orange-500 hover:underline capitalize"
+                                    onClick={() => handleUserDialog(cell)}
+                                >
+                                    <DocumentIcon className="h-4 w-4" />
+                                </button>
+                            )}
+                    </div>
                 </td>
             ))}
         </tr>

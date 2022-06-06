@@ -32,6 +32,7 @@ const ifAuthentecatedAdmin = <T extends object>(
                 : authFromUserSlice.users.find(
                       (u) => u.uid == authSelector.user.uid
                   );
+
             if (
                 authSelector.isLoggedIn &&
                 !authFromUserSlice.isLoading &&
@@ -47,17 +48,21 @@ const ifAuthentecatedAdmin = <T extends object>(
                 });
             } else if (
                 !authSelector.isLoggedIn &&
-                authSelector.isLoggedIn != null
+                authSelector.isLoggedIn !== null
             ) {
                 router.replace("/");
             } else if (
                 authSelector.isLoggedIn &&
+                authFromUserSlice.isLoading !== null &&
                 !authFromUserSlice.isLoading &&
                 authUserSlice?.role !== "admin"
             ) {
                 router.replace("/");
+                console.log("two");
+                console.log(authFromUserSlice);
             }
         }, [
+            authFromUserSlice,
             authFromUserSlice.isLoading,
             authFromUserSlice.users,
             authSelector.isLoggedIn,

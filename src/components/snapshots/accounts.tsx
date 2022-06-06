@@ -25,7 +25,7 @@ const Accounts = (props: { user: authState }) => {
 
     useEffect(() => {
         let unSub: Unsubscribe;
-        if (user.isLoggedIn && user.user.role !== "admin") {
+        if (user.isLoggedIn) {
             if (user.isLoggedIn) {
                 const getAccounts = async () => {
                     const userDocRef = doc(fireStore, "users", user.user.uid);
@@ -53,6 +53,7 @@ const Accounts = (props: { user: authState }) => {
                                     .data()
                                     .modified_at?.toDate()
                                     .toString();
+                                const owner = doc.doc.data()?.owner.id;
 
                                 const activated = doc.doc.data()?.activated;
 
@@ -63,6 +64,7 @@ const Accounts = (props: { user: authState }) => {
                                     created_at,
                                     modified_at,
                                     activated,
+                                    owner,
                                 };
 
                                 if (doc.type == "added") {

@@ -3,8 +3,13 @@ import activateUser from "../lib/firebase/activateUser";
 import { user } from "../type/reduxUsersState";
 import changeUserRole from "../lib/firebase/changeUserRole";
 import { rows } from "../type/tableProps";
+import { Dispatch, SetStateAction } from "react";
 
-const prepUsersRow = (users: user[]): rows[] => {
+const prepUsersRow = (
+    users: user[],
+    userDetails: Dispatch<SetStateAction<user | undefined>>,
+    userDetailsDialog: Dispatch<SetStateAction<boolean>>
+): rows[] => {
     if (!users || !Array.isArray(users)) return [];
 
     return users.map((user) => {
@@ -13,19 +18,13 @@ const prepUsersRow = (users: user[]): rows[] => {
                 txt: user.username,
                 button: false,
                 user,
-                click: () => {
-                    return false;
-                },
-                value: "",
+                setUserDetails: () => userDetails(user),
+                userDetailsDialog,
             },
             {
                 txt: user.uid,
                 button: false,
                 user,
-                click: () => {
-                    return false;
-                },
-                value: "",
             },
             {
                 txt: user.suspend ? "allow" : "suspend",
@@ -33,6 +32,7 @@ const prepUsersRow = (users: user[]): rows[] => {
                 user,
                 click: suspendUser,
                 value: !user.suspend,
+                targetId: user.uid,
             },
             {
                 txt: user.active ? "deactivate" : "activate",
@@ -40,6 +40,7 @@ const prepUsersRow = (users: user[]): rows[] => {
                 user,
                 click: activateUser,
                 value: !user.active,
+                targetId: user.uid,
             },
             {
                 txt: `Change TO ${user.role === "admin" ? "User" : "Admin"}`,
@@ -47,6 +48,7 @@ const prepUsersRow = (users: user[]): rows[] => {
                 user,
                 click: changeUserRole,
                 value: user.role == "admin" ? "user" : "admin",
+                targetId: user.uid,
             },
         ];
 
