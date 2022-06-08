@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { fireStore } from "./config";
 
 const suspendUser = (id: string, value: boolean) => {
@@ -7,7 +7,7 @@ const suspendUser = (id: string, value: boolean) => {
 
     try {
         const userDocRef = doc(fireStore, "users", id);
-        setDoc(userDocRef, { suspend: value }, { merge: true });
+        updateDoc(userDocRef, { suspend: value });
 
         return true;
     } catch (e: any) {

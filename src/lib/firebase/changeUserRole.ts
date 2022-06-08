@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { fireStore } from "./config";
 
 const changeUserRole = (id: string, value: boolean) => {
@@ -7,7 +7,7 @@ const changeUserRole = (id: string, value: boolean) => {
 
     try {
         const userDocRef = doc(fireStore, "users", id);
-        setDoc(userDocRef, { role: value }, { merge: true });
+        updateDoc(userDocRef, { role: value });
         return true;
     } catch (e: any) {
         return false;

@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { fireStore } from "./config";
 
 const activateUser = (id: string, value: boolean) => {
@@ -7,7 +7,7 @@ const activateUser = (id: string, value: boolean) => {
 
     try {
         const userDocRef = doc(fireStore, "users", id);
-        setDoc(userDocRef, { active: value }, { merge: true });
+        updateDoc(userDocRef, { active: value });
         return true;
     } catch (e: any) {
         return false;

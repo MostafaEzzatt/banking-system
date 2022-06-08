@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import checkAccountId from "../../utility/checkAccountId";
 import { fireStore } from "./config";
 
@@ -7,7 +7,7 @@ const changeBankAccountActivation = (id: string, value: boolean) => {
 
     try {
         const accountDocRef = doc(fireStore, "accounts", id);
-        setDoc(accountDocRef, { activated: value }, { merge: true });
+        updateDoc(accountDocRef, { activated: value });
 
         return true;
     } catch (e) {
