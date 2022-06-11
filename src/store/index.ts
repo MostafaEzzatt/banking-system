@@ -3,6 +3,7 @@ import accountsSlice from "./features/accounts/accounsSlice";
 import authSlice from "./features/auth/authSlice";
 import logsSlice from "./features/logs/logsSlice";
 import usersSlice from "./features/users/usersSlice";
+import configsSlice from "./features/configs/configsSlice";
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         accounts: accountsSlice,
         logs: logsSlice,
         users: usersSlice,
+        configs: configsSlice,
     },
 });
 

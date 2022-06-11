@@ -58,8 +58,6 @@ const ifAuthentecatedAdmin = <T extends object>(
                 authUserSlice?.role !== "admin"
             ) {
                 router.replace("/");
-                console.log("two");
-                console.log(authFromUserSlice);
             }
         }, [
             authFromUserSlice,

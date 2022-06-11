@@ -9,6 +9,7 @@ import messages from "../../messages/firebase";
 // redux
 import { useAppDispatch } from "../../hooks/redux";
 import { login, logout } from "../../store/features/auth/authSlice";
+import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 // toastify
 import { toast } from "react-toastify";
@@ -22,7 +23,9 @@ const OnAuthStateChange = () => {
                 const userFromFirestore = await getUserById(user.uid);
                 if (userFromFirestore && userFromFirestore.complete) {
                     dispatch(login(userFromFirestore.user));
+                    dispatch(loadSnapToggle(true));
                 } else if (userFromFirestore && userFromFirestore.error) {
+                    dispatch(loadSnapToggle(false));
                     signOut(auth);
                     dispatch(logout());
                     toast.error(messages["not-found"], {
@@ -30,6 +33,7 @@ const OnAuthStateChange = () => {
                     });
                 }
             } else {
+                dispatch(loadSnapToggle(false));
                 dispatch(logout());
             }
         });

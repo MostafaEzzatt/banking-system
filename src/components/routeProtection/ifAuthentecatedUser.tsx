@@ -52,6 +52,9 @@ const ifAuthentecatedUser = <T extends object>(
             ) {
                 router.replace("/");
             } else if (
+                !authFromUserSlice.isLoading &&
+                authFromUserSlice.isLoading != null &&
+                authSelector.isLoggedIn != null &&
                 authSelector.isLoggedIn &&
                 authUserSlice?.role !== "user"
             ) {

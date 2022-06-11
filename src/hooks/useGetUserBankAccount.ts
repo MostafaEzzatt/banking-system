@@ -6,17 +6,22 @@ const useGetUserBankAccount = (id: string | string[] | undefined) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [account, setAccount] = useState<account | null>(null);
-    const accounts = useAppSelector((state) => state.accounts.accounts);
+    const accounts = useAppSelector((state) => state.accounts);
 
     useEffect(() => {
-        if (!id || typeof id == "undefined" || Array.isArray(id)) {
-            setLoading(false);
+        if (accounts.isLoading) {
+            setLoading(true);
+            setError(false);
+        } else if (!id || typeof id == "undefined" || Array.isArray(id)) {
+            setLoading(true);
             setError(false);
         } else if (id) {
-            const accountId = accounts.findIndex((acc) => acc.id === id);
+            const accountId = accounts.accounts.findIndex(
+                (acc) => acc.id === id
+            );
 
             if (accountId !== -1) {
-                setAccount(accounts[accountId]);
+                setAccount(accounts.accounts[accountId]);
                 setLoading(false);
                 setError(false);
             } else {
@@ -27,7 +32,7 @@ const useGetUserBankAccount = (id: string | string[] | undefined) => {
             setError(true);
             setLoading(false);
         }
-    }, [id, accounts]);
+    }, [id, accounts.accounts, accounts.isLoading]);
 
     return { loading, error, account };
 };

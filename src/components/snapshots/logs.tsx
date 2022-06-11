@@ -8,7 +8,7 @@ import {
     where,
 } from "firebase/firestore";
 import { useEffect } from "react";
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fireStore } from "../../lib/firebase/config";
 import {
     add,
@@ -22,10 +22,11 @@ import { log } from "../../type/reduxLogsState";
 const Logs = (props: { user: authState }) => {
     const { user } = props;
     const dispatch = useAppDispatch();
+    const startSnap = useAppSelector((state) => state.configs.loadSnaps);
 
     useEffect(() => {
         let unSub: Unsubscribe;
-        if (user.isLoggedIn && user.user.role !== "admin") {
+        if (user.isLoggedIn && user.user.role !== "admin" && startSnap) {
             if (user.isLoggedIn) {
                 const getAccounts = async () => {
                     const userDocRef = doc(fireStore, "users", user.user.uid);
@@ -97,7 +98,7 @@ const Logs = (props: { user: authState }) => {
                     });
                 };
 
-                getAccounts();
+                getAccounts().then((un) => (unSub = un));
             }
         }
         return () => {
@@ -105,7 +106,7 @@ const Logs = (props: { user: authState }) => {
                 unSub();
             }
         };
-    }, [dispatch, user.isLoggedIn, user.user.role, user.user.uid]);
+    }, [dispatch, startSnap, user.isLoggedIn, user.user.role, user.user.uid]);
     return <></>;
 };
 

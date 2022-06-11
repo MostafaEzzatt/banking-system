@@ -16,8 +16,6 @@ const Accounts = () => {
         accounts.isLoading
     );
 
-    console.log(accountsData);
-
     const tableHeadings: heading[] = [
         {
             txt: "Name",

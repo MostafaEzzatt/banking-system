@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { auth } from "../../lib/firebase/config";
 import { clearAccounts } from "../../store/features/accounts/accounsSlice";
 import { logout } from "../../store/features/auth/authSlice";
+import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 import { clearLogs } from "../../store/features/logs/logsSlice";
 import { clearUsers } from "../../store/features/users/usersSlice";
 import ButtonSecondary from "../forms/buttonSecondary";
@@ -15,6 +16,7 @@ const Header = () => {
     const dispatch = useAppDispatch();
 
     const handleSignout = () => {
+        dispatch(loadSnapToggle(false));
         signOut(auth);
         dispatch(logout());
         dispatch(clearAccounts());

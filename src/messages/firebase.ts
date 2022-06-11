@@ -34,7 +34,7 @@ const messages: { [key: string]: string } = {
     "account-balance-updated": "The Account Balance Updated",
     transaction_done: "The Transaction Done",
     "not-enough-balance": "Not enough balance",
-    auth_problem: "Please Re-login And Try Again",
+    "auth-problem": "Please Re-login And Try Again",
 };
 
 export default messages;

@@ -16,7 +16,7 @@ import ActionBarButton from "../../../../components/layout/actionBar/button";
 import ifAuthentecatedUser from "../../../../components/routeProtection/ifAuthentecatedUser";
 import DialogContainer from "../../../../components/shared/dialogContainer";
 import FWMessage from "../../../../components/shared/fwMessage";
-import LoadingSection from "../../../../components/shared/loadingSection";
+import LoadingFullScreen from "../../../../components/shared/loadingFullScreen";
 import useGetAccountLogs from "../../../../hooks/useGetAccountLogs";
 import useGetUserBankAccount from "../../../../hooks/useGetUserBankAccount";
 
@@ -29,9 +29,9 @@ const Account = () => {
     const [showTransaction, setShowTransaction] = useState(false);
     const accountLogs = useGetAccountLogs(id);
 
-    if (loading) return <LoadingSection />;
+    if (loading) return <LoadingFullScreen />;
 
-    if (!account?.activated) {
+    if (!loading && !account?.activated) {
         toast.info(
             "Your account is not activated yet. Please wait for admin to activate your account.",
             { toastId: "account-activation" }

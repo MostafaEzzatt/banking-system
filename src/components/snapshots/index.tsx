@@ -11,6 +11,7 @@ const Index = () => {
         usersSlice: state.users,
     }));
     const [authUserSlice, setAuthUserSlice] = useState<authState>();
+    const loadSnaps = useAppSelector((state) => state.configs);
 
     useEffect(() => {
         if (auth.isLoggedIn && !usersSlice.isLoading) {
@@ -22,14 +23,23 @@ const Index = () => {
                 isLoggedIn: !usersSlice.isLoading,
             };
             setAuthUserSlice(authUser);
+        } else {
+            setAuthUserSlice(auth);
         }
-    }, [auth.isLoggedIn, auth.user, usersSlice.isLoading, usersSlice.users]);
+    }, [
+        auth,
+        auth.isLoggedIn,
+        auth.user,
+        usersSlice.isLoading,
+        usersSlice.users,
+    ]);
 
+    if (!loadSnaps.loadSnaps) return <></>;
     return (
         <>
-            <Accounts user={auth} />
-            <Logs user={auth} />
-            <Users user={auth} />
+            <Accounts user={authUserSlice || auth} />
+            <Logs user={authUserSlice || auth} />
+            <Users user={authUserSlice || auth} />
         </>
     );
 };

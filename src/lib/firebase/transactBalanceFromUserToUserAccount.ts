@@ -50,7 +50,7 @@ const transactBalanceFromUserToUserAccount = async (
                 throw Error("not-enough-balance");
 
             if (account.data()!.owner.id !== authId)
-                throw Error("auth_problem");
+                throw Error("auth-problem");
 
             const newAccountBalance = account.data()!.balance - amount;
             const newTransactionAccountBalance =

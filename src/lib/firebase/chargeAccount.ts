@@ -26,6 +26,7 @@ const chargeAccount = async (
 
             balanceBeforeUpdate = checkAccount.data()!.balance;
             const newBalance = checkAccount.data()!.balance + amount;
+
             transition.update(accountDocRef, {
                 balance: newBalance,
                 modified_at: new Date(),
