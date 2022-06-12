@@ -12,6 +12,8 @@ const messages: { [key: string]: string } = {
     "auth/user-registered": "Your account has been created",
     "auth/operation-not-allowed": "Signing in is currently disabled.",
     "auth/user-authenticated": "Logged in successfully",
+    "auth/multiple-authentication-not-allowed":
+        "authenticate from multiple places is not allowed",
     // firestore
     cancelled: "Cancelled",
     unknown: "something went wrong",

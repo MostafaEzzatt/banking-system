@@ -13,6 +13,7 @@ import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 // toastify
 import { toast } from "react-toastify";
+import toggleUserOnline from "../../lib/firebase/toggleUserOnline";
 
 const OnAuthStateChange = () => {
     let dispatch = useAppDispatch();

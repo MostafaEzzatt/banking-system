@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { auth } from "../../lib/firebase/config";
+import toggleUserOnline from "../../lib/firebase/toggleUserOnline";
 import { clearAccounts } from "../../store/features/accounts/accounsSlice";
 import { logout } from "../../store/features/auth/authSlice";
 import { loadSnapToggle } from "../../store/features/configs/configsSlice";
@@ -17,6 +18,7 @@ const Header = () => {
 
     const handleSignout = () => {
         dispatch(loadSnapToggle(false));
+        toggleUserOnline(authSelector.user.uid, false);
         signOut(auth);
         dispatch(logout());
         dispatch(clearAccounts());

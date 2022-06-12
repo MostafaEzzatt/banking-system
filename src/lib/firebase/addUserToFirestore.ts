@@ -6,7 +6,7 @@ async function addUserToFirestore(mail: string, phone: string, id: string) {
 
     try {
         const userDocRef = doc(fireStore, "users", id);
-        setDoc(userDocRef, {
+        await setDoc(userDocRef, {
             mail,
             phone,
             role: "user",
