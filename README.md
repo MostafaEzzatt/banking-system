@@ -18,7 +18,7 @@ yarn install
 
 2. start new project on firebase
 
-![image](https://user-images.githubusercontent.com/16215816/173335292-0fd4e261-3c4b-41fc-be0d-d548b42abfd2.png)
+![image](https://user-images.githubusercontent.com/16215816/173336523-93c7974c-d012-4671-b06a-5b4a09b441c4.png)
 
 3. Add Firebase Config In .env.local after rename it
 
