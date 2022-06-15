@@ -16,7 +16,7 @@ const CheckList = () => {
                 <li className="text-slate-50 space-x-3">
                     <span className="w-60 inline-block">See User Details</span>
                     <span className="px-2 w-28 text-center uppercase bg-red-400 text-red-900 inline-block">
-                        [on-going]
+                        [done]
                     </span>
                 </li>
 
@@ -33,7 +33,7 @@ const CheckList = () => {
                         Approve User Bank Account
                     </span>
                     <span className="px-2 w-28 text-center uppercase bg-red-400 text-red-900 inline-block">
-                        [on-going]
+                        [done]
                     </span>
                 </li>
 
