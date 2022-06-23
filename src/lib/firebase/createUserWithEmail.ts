@@ -25,8 +25,6 @@ const createUserWithEmail = async (
             password
         );
 
-        console.log({ user });
-
         if (user) {
             const createUserInDB = await addUserToFirestore(
                 username,

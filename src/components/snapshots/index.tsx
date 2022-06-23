@@ -33,7 +33,6 @@ const Index = () => {
         usersSlice.isLoading,
         usersSlice.users,
     ]);
-
     if (!loadSnaps.loadSnaps) return <></>;
     return (
         <>

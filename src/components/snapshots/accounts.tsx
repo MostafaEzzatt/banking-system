@@ -73,11 +73,15 @@ const Accounts = (props: { user: authState }) => {
                             } else if (doc.type == "removed") {
                                 dispatch(remove(account));
                             }
-
                             if (docs.docChanges().length == idx + 1) {
+                                console.log("accounts snapshot finish loading");
                                 dispatch(finishLoading());
                             }
                         });
+
+                        if (docs.docChanges().length == 0) {
+                            dispatch(finishLoading());
+                        }
                     },
                 });
             };

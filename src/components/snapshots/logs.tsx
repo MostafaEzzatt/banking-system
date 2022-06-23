@@ -94,6 +94,9 @@ const Logs = (props: { user: authState }) => {
                                     dispatch(finishLoading());
                                 }
                             });
+                            if (docs.docChanges().length == 0) {
+                                dispatch(finishLoading());
+                            }
                         },
                     });
                 };

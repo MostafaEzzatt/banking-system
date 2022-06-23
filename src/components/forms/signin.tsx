@@ -17,7 +17,8 @@ import loginWithEmail from "../../lib/firebase/loginWithEmail";
 import messages from "../../messages/firebase";
 
 // redux
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 const Signin = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -29,6 +30,7 @@ const Signin = () => {
     });
 
     const auth = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -85,6 +87,9 @@ const Signin = () => {
             type: user.icon || "default",
         });
 
+        if (user.icon == "success") {
+            dispatch(loadSnapToggle(true));
+        }
         if (user.icon == "error") {
             setIsDisabled(false);
         }

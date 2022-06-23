@@ -43,7 +43,7 @@ Pass123@
 
 ## Login As Admin
 user@admin.com
-Pass123
+Pass123@
 ```
 
 ---

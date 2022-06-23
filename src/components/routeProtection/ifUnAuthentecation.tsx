@@ -18,8 +18,6 @@ const ifUnAuthentecated = <T extends object>(
         const authFromUserSlice = useAppSelector((state) => state.users);
         const router = useRouter();
 
-        console.log(authSelector, authFromUserSlice);
-
         useEffect(() => {
             const authUserSlice = authFromUserSlice.isLoading
                 ? authSelector.user
