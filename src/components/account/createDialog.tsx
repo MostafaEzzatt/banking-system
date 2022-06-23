@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
     Dispatch,
     SetStateAction,
@@ -6,14 +5,13 @@ import {
     useRef,
     useState,
 } from "react";
-import { createPortal } from "react-dom";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../hooks/redux";
 import createUserBankAccount from "../../lib/firebase/createUserBankAccount";
+import messages from "../../messages/firebase";
 import checkUserAccountName from "../../utility/checkUserAccountName";
 import ButtonPrimary from "../forms/buttonPrimary";
 import Input from "../inputs/input";
-import messages from "../../messages/firebase";
 
 const CreateDialog = (props: { handle: Dispatch<SetStateAction<boolean>> }) => {
     const accountNameRef = useRef<HTMLInputElement>(null);

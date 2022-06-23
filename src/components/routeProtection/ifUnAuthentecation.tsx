@@ -7,9 +7,8 @@ import { NextComponentType } from "next";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 
 // componenets
-import LoadingFullScreen from "../shared/loadingFullScreen";
 import { useEffect } from "react";
-import { objectTraps } from "immer/dist/internal";
+import LoadingFullScreen from "../shared/loadingFullScreen";
 
 const ifUnAuthentecated = <T extends object>(
     Component: NextComponentType<T>
@@ -17,8 +16,9 @@ const ifUnAuthentecated = <T extends object>(
     return function UnAuthentecated(props: T) {
         const authSelector = useAppSelector((state) => state.auth);
         const authFromUserSlice = useAppSelector((state) => state.users);
-        const dispatch = useAppDispatch();
         const router = useRouter();
+
+        console.log(authSelector, authFromUserSlice);
 
         useEffect(() => {
             const authUserSlice = authFromUserSlice.isLoading
@@ -47,7 +47,7 @@ const ifUnAuthentecated = <T extends object>(
         ]);
 
         if (authSelector.isLoggedIn == null) return <LoadingFullScreen />;
-        if (authSelector.isLoggedIn) return <></>;
+        if (authSelector.isLoggedIn) return <LoadingFullScreen />;
         if (!authSelector.isLoggedIn) return <Component {...props} />;
     };
 };

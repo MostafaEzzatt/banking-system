@@ -6,7 +6,7 @@ async function addUserToFirestore(mail: string, phone: string, id: string) {
 
     try {
         const userDocRef = doc(fireStore, "users", id);
-        await setDoc(userDocRef, {
+        const addUserToDB = setDoc(userDocRef, {
             mail,
             phone,
             role: "user",
@@ -16,7 +16,9 @@ async function addUserToFirestore(mail: string, phone: string, id: string) {
             modified_at: new Date(),
         });
 
-        return true;
+        return addUserToDB.then(() => {
+            return true;
+        });
     } catch (e) {
         return false;
     }

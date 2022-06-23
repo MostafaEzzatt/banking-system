@@ -13,7 +13,6 @@ import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 // toastify
 import { toast } from "react-toastify";
-import toggleUserOnline from "../../lib/firebase/toggleUserOnline";
 
 const OnAuthStateChange = () => {
     let dispatch = useAppDispatch();
@@ -24,7 +23,6 @@ const OnAuthStateChange = () => {
                 const userFromFirestore = await getUserById(user.uid);
                 if (userFromFirestore && userFromFirestore.complete) {
                     dispatch(login(userFromFirestore.user));
-                    dispatch(loadSnapToggle(true));
                 } else if (userFromFirestore && userFromFirestore.error) {
                     dispatch(loadSnapToggle(false));
                     signOut(auth);

@@ -18,8 +18,9 @@ import createUserWithEmail from "../../lib/firebase/createUserWithEmail";
 import messages from "../../messages/firebase";
 
 // redux
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import ButtonPrimary from "./buttonPrimary";
+import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 const Signup = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -34,6 +35,7 @@ const Signup = () => {
         tele: "",
     });
     const auth = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
 
     const resetErrors = () => {
         setErrors({
@@ -126,12 +128,15 @@ const Signup = () => {
 
         const create = await createUserWithEmail(username, password, tele);
         const q = messages[create.error] || messages["unknown"];
+        console.log({ create });
         toast(q, {
             toastId: "signup",
             type: create.icon || "default",
         });
 
-        if (create.icon == "error") {
+        if (create.icon == "success") {
+            dispatch(loadSnapToggle(true));
+        } else if (create.icon == "error") {
             setIsDisabled(false);
         }
     };

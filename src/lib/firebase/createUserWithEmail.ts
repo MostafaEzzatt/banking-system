@@ -1,6 +1,5 @@
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { auth, fireStore } from "./config";
+import { auth } from "./config";
 
 // types
 import ToastType from "../../type/toast";
@@ -26,10 +25,20 @@ const createUserWithEmail = async (
             password
         );
 
-        if (user) {
-            await addUserToFirestore(username, phone, user.user.uid);
+        console.log({ user });
 
-            return { icon: iconSuccess, error: "auth/user-registered" };
+        if (user) {
+            const createUserInDB = await addUserToFirestore(
+                username,
+                phone,
+                user.user.uid
+            );
+
+            if (createUserInDB) {
+                return { icon: iconSuccess, error: "auth/user-registered" };
+            } else {
+                return { icon: iconError, error: "unknown" };
+            }
         }
     } catch (error: any) {
         const newError: string = error.code;
