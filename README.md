@@ -34,6 +34,20 @@ yarn dev
 
 ---
 
+## Accounts For Testing
+
+```
+## Login As Active User
+user@test.com
+Pass123@
+
+## Login As Admin
+user@admin.com
+Pass123
+```
+
+---
+
 ## Application Packages
 
 | Name               | Verision |
