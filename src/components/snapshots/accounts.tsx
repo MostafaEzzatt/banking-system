@@ -74,7 +74,6 @@ const Accounts = (props: { user: authState }) => {
                                 dispatch(remove(account));
                             }
                             if (docs.docChanges().length == idx + 1) {
-                                console.log("accounts snapshot finish loading");
                                 dispatch(finishLoading());
                             }
                         });
