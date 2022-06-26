@@ -7,15 +7,17 @@ import getUserById from "../../lib/firebase/getUserById";
 import messages from "../../messages/firebase";
 
 // redux
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { login, logout } from "../../store/features/auth/authSlice";
 import { loadSnapToggle } from "../../store/features/configs/configsSlice";
 
 // toastify
 import { toast } from "react-toastify";
+import toggleUserOnline from "../../lib/firebase/toggleUserOnline";
 
 const OnAuthStateChange = () => {
     let dispatch = useAppDispatch();
+    const authSelector = useAppSelector((state) => state.auth);
 
     useEffect(() => {
         const unSubAuthStateChange = onAuthStateChanged(auth, async (user) => {
@@ -32,6 +34,7 @@ const OnAuthStateChange = () => {
                     });
                 }
             } else {
+                toggleUserOnline(authSelector.user.uid, false);
                 dispatch(loadSnapToggle(false));
                 dispatch(logout());
             }
@@ -42,7 +45,7 @@ const OnAuthStateChange = () => {
                 unSubAuthStateChange();
             }
         };
-    }, [dispatch]);
+    }, [authSelector.user.uid, dispatch]);
     return <></>;
 };
 
