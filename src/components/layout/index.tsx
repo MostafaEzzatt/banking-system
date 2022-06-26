@@ -17,6 +17,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             return;
         };
         window.addEventListener("beforeunload", handleCloseTab);
+        window.onbeforeunload = function () {
+            if (auth.currentUser) {
+                toggleUserOnline(auth.currentUser.uid, false);
+            }
+        };
     }, []);
 
     if (pathname === "/") return <>{children}</>;
